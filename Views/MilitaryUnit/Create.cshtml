@@ -1,0 +1,36 @@
+﻿@using ProjectLibrary.Models
+@model MilitaryUnitEntity
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Military Unit</h1>
+
+<h4>MilitaryUnitEntity</h4>
+<hr />
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ContactPersonId"></label>
+        <input asp-for="ContactPersonId" class="form-control" />
+        <span asp-validation-for="ContactPersonId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Requests"></label>
+        <textarea asp-for="Requests" class="form-control"></textarea>
+        <span asp-validation-for="Requests" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,27 @@
+﻿@using ProjectLibrary.Models
+@model MilitaryUnitEntity
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details of @Model.Name</h1>
+
+<div>
+    <h4>Military Unit</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Name</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+        <dt class="col-sm-2">Contact Person</dt>
+        <dd class="col-sm-10">@Model.ContactPersonId</dd>
+
+        <dt class="col-sm-2">Requests</dt>
+        <dd class="col-sm-10">@Model.Requests</dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
