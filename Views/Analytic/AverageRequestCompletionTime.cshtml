@@ -1,0 +1,11 @@
+﻿@model TimeSpan
+
+@{
+    ViewBag.Title = "Average Request Completion Time";
+}
+
+<h2>Average Request Completion Time</h2>
+
+<p>Average Time: @Model.TotalHours hours</p>
+
+<a asp-action="Index">Back to Analytics</a>

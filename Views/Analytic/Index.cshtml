@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Analytics";
+}
+
+<h2>Analytics</h2>
+
+<ul>
+    <li><a asp-action="ProcessedRequestsCount" asp-route-period="7">Processed Requests Count (Last 7 Days)</a></li>
+    <li><a asp-action="AverageRequestCompletionTime" asp-route-period="30">Average Request Completion Time (Last 30 Days)</a></li>
+    <li><a asp-action="TopVolunteers">Top Volunteers</a></li>
+    <li><a asp-action="VolunteerCount">Volunteer Count</a></li>
+    <li><a asp-action="OrganizationCount">Organization Count</a></li>
+</ul>

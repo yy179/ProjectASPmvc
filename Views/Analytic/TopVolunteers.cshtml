@@ -1,0 +1,27 @@
+﻿@model List<ProjectLibrary.Models.VolunteerEntity>
+
+@{
+    ViewBag.Title = "Top Volunteers";
+}
+
+<h2>Top Volunteers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Processed Requests</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var volunteer in Model)
+        {
+            <tr>
+                <td>@volunteer.Name</td>
+                <td>@volunteer.Requests.Count(r => r.IsActive == false)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index">Back to Analytics</a>
