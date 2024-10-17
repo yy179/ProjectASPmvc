@@ -37,8 +37,9 @@ namespace Project.Controllers
             if (ModelState.IsValid)
             {
                 militaryUnit.Id = Guid.NewGuid();
+                Guid contactPersonId = militaryUnit.ContactPersonId ?? Guid.Empty;
 
-                await _militaryUnitService.Add(militaryUnit.Id, militaryUnit.ContactPersonId, militaryUnit.Name, militaryUnit.Requests);
+                await _militaryUnitService.Add(militaryUnit.Id, contactPersonId, militaryUnit.Name, militaryUnit.Requests);
                 return RedirectToAction(nameof(Index));
             }
             return View(militaryUnit);
@@ -60,11 +61,14 @@ namespace Project.Controllers
 
             if (ModelState.IsValid)
             {
-                await _militaryUnitService.Update(militaryUnit.Id, militaryUnit.ContactPersonId, militaryUnit.Name, militaryUnit.Requests);
+                Guid contactPersonId = militaryUnit.ContactPersonId ?? Guid.Empty;
+
+                await _militaryUnitService.Update(militaryUnit.Id, contactPersonId, militaryUnit.Name, militaryUnit.Requests);
                 return RedirectToAction(nameof(Index));
             }
             return View(militaryUnit);
         }
+
         public async Task<IActionResult> Delete(Guid id)
         {
             var militaryUnit = await _militaryUnitService.GetById(id);

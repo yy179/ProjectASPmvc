@@ -38,11 +38,14 @@ namespace Project.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _contactPersonService.Add(contactPerson.Id, contactPerson.MilitaryUnitId, contactPerson.Name, contactPerson.Surname, contactPerson.DateOfBirth, contactPerson.Address);
+                Guid militaryUnitId = contactPerson.MilitaryUnitId ?? Guid.Empty;
+
+                await _contactPersonService.Add(contactPerson.Id, militaryUnitId, contactPerson.Name, contactPerson.Surname, contactPerson.DateOfBirth, contactPerson.Address);
                 return RedirectToAction(nameof(Index));
             }
             return View(contactPerson);
         }
+
 
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -65,11 +68,14 @@ namespace Project.Controllers
 
             if (ModelState.IsValid)
             {
-                await _contactPersonService.Update(contactPerson.Id, contactPerson.MilitaryUnitId, contactPerson.Name, contactPerson.Surname, contactPerson.DateOfBirth, contactPerson.Address);
+                Guid militaryUnitId = contactPerson.MilitaryUnitId ?? Guid.Empty;
+
+                await _contactPersonService.Update(contactPerson.Id, militaryUnitId, contactPerson.Name, contactPerson.Surname, contactPerson.DateOfBirth, contactPerson.Address);
                 return RedirectToAction(nameof(Index));
             }
             return View(contactPerson);
         }
+
 
         public async Task<IActionResult> Delete(Guid id)
         {

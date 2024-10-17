@@ -45,7 +45,20 @@ namespace YourProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _requestService.Add(request.Id, request.ShortDescription, request.LongDescription, request.SubmissionDate, request.DueDate, request.IsActive, request.MilitaryUnitId, request.OrganizationId, request.VolunteerId);
+                Guid organizationId = request.OrganizationId ?? Guid.Empty;
+                Guid volunteerId = request.VolunteerId ?? Guid.Empty;
+
+                await _requestService.Add(
+                    request.Id,
+                    request.ShortDescription,
+                    request.LongDescription,
+                    request.SubmissionDate,
+                    request.DueDate,
+                    request.IsActive,
+                    request.MilitaryUnitId,
+                    organizationId,
+                    volunteerId
+                );
                 return RedirectToAction(nameof(Index));
             }
             return View(request);
@@ -62,15 +75,29 @@ namespace YourProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ShortDescription,LongDescription,SubmissionDate,DueDate,IsActive,MilitaryUnitId,OrganizationId,VolunteerId")] RequestEntity request)
+        public async Task<IActionResult> Edit(Guid id, RequestEntity request)
         {
             if (ModelState.IsValid)
             {
-                await _requestService.Update(request.Id, request.ShortDescription, request.LongDescription, request.SubmissionDate, request.DueDate, request.IsActive, request.MilitaryUnitId, request.OrganizationId, request.VolunteerId);
+                Guid organizationId = request.OrganizationId ?? Guid.Empty;
+                Guid volunteerId = request.VolunteerId ?? Guid.Empty;
+
+                await _requestService.Update(
+                    request.Id,
+                    request.ShortDescription,
+                    request.LongDescription,
+                    request.SubmissionDate,
+                    request.DueDate,
+                    request.IsActive,
+                    request.MilitaryUnitId,
+                    organizationId,
+                    volunteerId
+                );
                 return RedirectToAction(nameof(Index));
             }
             return View(request);
         }
+
 
 
         public async Task<IActionResult> Delete(Guid id)
