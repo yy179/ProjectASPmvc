@@ -9,9 +9,12 @@ namespace Project.Controllers
     public class MilitaryUnitController : Controller
     {
         private readonly IMilitaryUnitService _militaryUnitService;
-        public MilitaryUnitController(IMilitaryUnitService militaryUnitservice)
+        private readonly IRequestService _requestService;
+
+        public MilitaryUnitController(IMilitaryUnitService militaryUnitservice, IRequestService requestService)
         {
             _militaryUnitService = militaryUnitservice;
+            _requestService = requestService;
         }
 
         public async Task<IActionResult> Index()
@@ -19,17 +22,27 @@ namespace Project.Controllers
             var militaryUnits = await _militaryUnitService.Get();
             return View(militaryUnits);
         }
+
         public async Task<IActionResult> Details(Guid id)
         {
+
             var militaryUnit = await _militaryUnitService.GetById(id);
             if (militaryUnit == null)
                 return NotFound();
+
+
+            var requests = await _militaryUnitService.GetRequestsByMilitaryUnit(id, true);
+            ViewBag.Requests = requests;
+
             return View(militaryUnit);
         }
+
+
         public IActionResult Create()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MilitaryUnitEntity militaryUnit)
@@ -44,6 +57,7 @@ namespace Project.Controllers
             }
             return View(militaryUnit);
         }
+
         public async Task<IActionResult> Edit(Guid id)
         {
             var militaryUnit = await _militaryUnitService.GetById(id);
