@@ -26,8 +26,11 @@
         <span asp-validation-for="DueDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="IsActive" class="control-label"></label>
-        <input asp-for="IsActive" class="form-control" />
+        <label asp-for="IsActive" class="control-label">Актуальность</label>
+        <div class="form-check form-switch">
+            <input asp-for="IsActive" class="form-check-input" type="checkbox" id="isActiveSwitch" />
+            <label class="form-check-label" for="isActiveSwitch">Активна</label>
+        </div>
         <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
 
