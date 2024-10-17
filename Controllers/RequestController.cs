@@ -42,8 +42,8 @@ namespace YourProject.Controllers
         {
             var militaryUnits = await _militaryUnitService.Get();
             ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
-            var organizationService = await _organizationService.Get();
-            ViewBag.Organizations = new SelectList(organizationService, "Id", "Name");
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
             return View();
         }
 
@@ -58,7 +58,6 @@ namespace YourProject.Controllers
                 request.Id = Guid.NewGuid();
                 Guid organizationId = request.OrganizationId ?? Guid.Empty;
                 Guid volunteerId = request.VolunteerId ?? Guid.Empty;
-                Console.WriteLine($"OrganizationId: {request.OrganizationId}");
 
                 await _requestService.Add(
                     request.Id,
@@ -81,7 +80,10 @@ namespace YourProject.Controllers
             var request = await _requestService.GetById(id);
             if (request == null)
                 return NotFound();
-
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
             return View(request);
         }
 
