@@ -21,6 +21,7 @@ builder.Services.AddScoped<IVolunteerService, VolunteerService>();
 builder.Services.AddScoped<IOrganizationService, OrganizationService>();
 builder.Services.AddScoped<IMilitaryUnitService, MilitaryUnitService>();
 builder.Services.AddScoped<IContactPersonService, ContactPersonService>();
+builder.Services.AddScoped<IAnalyticsService, AnalyticsService >();
 
 builder.Services.AddControllersWithViews();
 
