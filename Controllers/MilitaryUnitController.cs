@@ -31,7 +31,7 @@ namespace Project.Controllers
                 return NotFound();
 
 
-            var requests = await _militaryUnitService.GetRequestsByMilitaryUnit(id, true);
+            var requests = await _militaryUnitService.GetRequestsByMilitaryUnit(id);
             ViewBag.Requests = requests;
 
             return View(militaryUnit);
@@ -88,15 +88,21 @@ namespace Project.Controllers
             var militaryUnit = await _militaryUnitService.GetById(id);
             if (militaryUnit == null)
                 return NotFound();
+
+
             return View(militaryUnit);
         }
+
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
+            var militaryUnit = await _militaryUnitService.GetById(id); 
+
             await _militaryUnitService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

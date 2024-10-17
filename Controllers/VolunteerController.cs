@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectLibrary.Models;
 using ProjectLibrary.Services;
 using ProjectLibrary.Services.Interfaces;
@@ -9,10 +10,12 @@ namespace Project.Controllers
     public class VolunteerController : Controller
     {
         private readonly IVolunteerService _volunteerService;
+        private readonly IOrganizationService _organizationService;
 
-        public VolunteerController(IVolunteerService volunteerService)
+        public VolunteerController(IVolunteerService volunteerService, IOrganizationService organizationService)
         {
             _volunteerService = volunteerService;
+            _organizationService = organizationService;
         }
 
         public async Task<IActionResult> Index()
@@ -29,8 +32,10 @@ namespace Project.Controllers
             return View(volunteer);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
             return View();
         }
 
@@ -54,6 +59,8 @@ namespace Project.Controllers
             var volunteer = await _volunteerService.GetById(id);
             if (volunteer == null)
                 return NotFound();
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
             return View(volunteer);
         }
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectLibrary.Models;
+using ProjectLibrary.Services;
 using ProjectLibrary.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -9,10 +11,12 @@ namespace Project.Controllers
     public class ContactPersonController : Controller
     {
         private readonly IContactPersonService _contactPersonService;
+        private readonly IMilitaryUnitService _militaryUnitService;
 
-        public ContactPersonController(IContactPersonService contactPersonService)
+        public ContactPersonController(IContactPersonService contactPersonService, IMilitaryUnitService militaryUnitService)
         {
             _contactPersonService = contactPersonService;
+            _militaryUnitService = militaryUnitService;
         }
 
         public async Task<IActionResult> Index()
@@ -27,8 +31,10 @@ namespace Project.Controllers
                 return NotFound();
             return View(contactPerson);
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
             return View();
         }
 
@@ -38,6 +44,7 @@ namespace Project.Controllers
         {
             if (ModelState.IsValid)
             {
+                contactPerson.Id = Guid.NewGuid();
                 Guid militaryUnitId = contactPerson.MilitaryUnitId ?? Guid.Empty;
 
                 await _contactPersonService.Add(contactPerson.Id, militaryUnitId, contactPerson.Name, contactPerson.Surname, contactPerson.DateOfBirth, contactPerson.Address);
@@ -54,6 +61,8 @@ namespace Project.Controllers
             {
                 return NotFound();
             }
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
             return View(contactPerson);
         }
 
