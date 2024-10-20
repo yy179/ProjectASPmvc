@@ -6,7 +6,7 @@ using ProjectLibrary.Services;
 using ProjectLibrary.Services.Interfaces;
 using System.Threading.Tasks;
 
-namespace YourProject.Controllers
+namespace Project.Controllers
 {
     public class RequestController : Controller
     {
