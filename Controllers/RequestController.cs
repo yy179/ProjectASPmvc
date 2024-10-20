@@ -91,6 +91,8 @@ namespace Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, RequestEntity request)
         {
+            ModelState.Remove("MilitaryUnit");
+
             if (ModelState.IsValid)
             {
                 Guid organizationId = request.OrganizationId ?? Guid.Empty;
@@ -109,6 +111,11 @@ namespace Project.Controllers
                 );
                 return RedirectToAction(nameof(Index));
             }
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
+
             return View(request);
         }
 

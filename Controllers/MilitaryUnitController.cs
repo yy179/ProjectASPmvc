@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProjectLibrary.Models;
 using ProjectLibrary.Services;
 using ProjectLibrary.Services.Interfaces;
@@ -10,11 +11,13 @@ namespace Project.Controllers
     {
         private readonly IMilitaryUnitService _militaryUnitService;
         private readonly IRequestService _requestService;
-
-        public MilitaryUnitController(IMilitaryUnitService militaryUnitservice, IRequestService requestService)
+        private readonly IOrganizationService _organizationService;
+        public MilitaryUnitController(IMilitaryUnitService militaryUnitservice, IRequestService requestService, IOrganizationService organizationService)
         {
             _militaryUnitService = militaryUnitservice;
             _requestService = requestService;
+            _organizationService = organizationService;
+
         }
 
         public async Task<IActionResult> Index()
@@ -38,10 +41,15 @@ namespace Project.Controllers
         }
 
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -60,11 +68,18 @@ namespace Project.Controllers
 
         public async Task<IActionResult> Edit(Guid id)
         {
-            var militaryUnit = await _militaryUnitService.GetById(id);
-            if (militaryUnit == null)
+            var request = await _requestService.GetById(id);
+            if (request == null)
                 return NotFound();
-            return View(militaryUnit);
+
+            var militaryUnits = await _militaryUnitService.Get();
+            ViewBag.MilitaryUnits = new SelectList(militaryUnits, "Id", "Name");
+            var organizations = await _organizationService.Get();
+            ViewBag.Organizations = new SelectList(organizations, "Id", "Name");
+
+            return View(request);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -1,0 +1,35 @@
+﻿@model ProjectLibrary.Models.MilitaryUnitEntity
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MilitaryUnit</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Requests
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var request in ViewBag.Requests as List<ProjectLibrary.Models.RequestEntity>)
+                {
+                    <li>@request.ShortDescription</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
