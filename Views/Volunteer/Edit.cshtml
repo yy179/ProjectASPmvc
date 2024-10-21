@@ -1,0 +1,41 @@
+﻿@model ProjectLibrary.Models.VolunteerEntity
+
+@{
+    ViewBag.Title = "Edit Volunteer";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label" })
+        @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Biography, htmlAttributes: new { @class = "control-label" })
+        @Html.TextAreaFor(model => model.Biography, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Biography, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Organizations, "Organizations", htmlAttributes: new { @class = "control-label" })
+        @Html.DropDownListFor(model => model.Organizations, (SelectList)ViewBag.Organizations, "Select Organization", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Organizations, "", new { @class = "text-danger" })
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+}
