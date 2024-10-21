@@ -29,6 +29,8 @@ namespace Project.Controllers
             var organization = await _organizationService.GetById(id);
             if (organization == null)
                 return NotFound();
+            var requests = _requestService.GetByOrganizationId(id);
+            ViewBag.Requests = requests;
             return View(organization);
         }
 

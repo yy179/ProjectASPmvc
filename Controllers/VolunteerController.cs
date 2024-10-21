@@ -11,11 +11,13 @@ namespace Project.Controllers
     {
         private readonly IVolunteerService _volunteerService;
         private readonly IOrganizationService _organizationService;
+        private readonly IRequestService _requestService;
 
-        public VolunteerController(IVolunteerService volunteerService, IOrganizationService organizationService)
+        public VolunteerController(IVolunteerService volunteerService, IOrganizationService organizationService, IRequestService requestService)
         {
             _volunteerService = volunteerService;
             _organizationService = organizationService;
+            _requestService = requestService;
         }
 
         public async Task<IActionResult> Index()
@@ -29,6 +31,8 @@ namespace Project.Controllers
             var volunteer = await _volunteerService.GetById(id);
             if (volunteer == null)
                 return NotFound();
+            var requests = await _requestService.GetByVolunteerId(id);
+            ViewBag.Requests = requests;
             return View(volunteer);
         }
 
